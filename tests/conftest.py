@@ -7,8 +7,8 @@ class ParserTestCase(unittest.TestCase):
     def setUp(self):
         self.parser = Parser()
 
-    def assertParsed(self, wikitext, lines, links=None):
+    def assertParsed(self, wikitext, lines, tags=None):
         result = self.parser.parse(wikitext)
         self.assertEqual(lines, result['lines'])
-        if links is not None:
-            self.assertEqual(links, result['links'])
+        if tags is not None:
+            self.assertEqual(tags, result['tags'])

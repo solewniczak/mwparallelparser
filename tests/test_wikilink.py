@@ -4,8 +4,10 @@ from .conftest import ParserTestCase
 class WikilinkTestCase(ParserTestCase):
     def test_link(self):
         wikitext = '[[hipertekst]] something'
-        links = [{'line': 0, 'start': 0, 'length': 10, 'destination': 'hipertekst'}]
-        self.assertParsed(wikitext, ['hipertekst something'], links)
+        tags = [{'type': 'link',
+                  'spans': [{'line': 0, 'start': 0, 'length': 10}],
+                  'attributes': {'destination': 'hipertekst'}}]
+        self.assertParsed(wikitext, ['hipertekst something'], tags)
 
     def test_files_removal(self):
         wikitext = "[[Plik:Jan Matejko, Stańczyk.jpg|mały|lewo|[[Jan Matejko]], ''[[Stańczyk (obraz Jana Matejki)|Stańczyk]]'']]"
@@ -13,23 +15,31 @@ class WikilinkTestCase(ParserTestCase):
 
     def test_blend_link(self):
         wikitext = '[[klasycyzm]]em'
-        links = [{'line': 0, 'start': 0, 'length': 11, 'destination': 'klasycyzm'}]
-        self.assertParsed(wikitext, ['klasycyzmem'], links)
+        tags = [{'type': 'link',
+                 'spans': [{'line': 0, 'start': 0, 'length': 11}],
+                 'attributes': {'destination': 'klasycyzm'}}]
+        self.assertParsed(wikitext, ['klasycyzmem'], tags)
 
     def test_blend_link_in_quotes(self):
         wikitext = '"[[hipertekst]]" something'
-        links = [{'line': 0, 'start': 1, 'length': 10, 'destination': 'hipertekst'}]
-        self.assertParsed(wikitext, ['"hipertekst" something'], links)
+        tags = [{'type': 'link',
+                 'spans': [{'line': 0, 'start': 1, 'length': 10}],
+                 'attributes': {'destination': 'hipertekst'}}]
+        self.assertParsed(wikitext, ['"hipertekst" something'], tags)
 
     def test_blend_link_in_round_brackets(self):
         wikitext = '([[1971]]) something'
-        links = [{'line': 0, 'start': 1, 'length': 4, 'destination': '1971'}]
-        self.assertParsed(wikitext, ['(1971) something'], links)
+        tags = [{'type': 'link',
+                 'spans': [{'line': 0, 'start': 1, 'length': 4}],
+                 'attributes': {'destination': '1971'}}]
+        self.assertParsed(wikitext, ['(1971) something'], tags)
 
     def test_blend_link_with_polish_chars(self):
         wikitext = '[[ąę]]żźćółąę something'
-        links = [{'line': 0, 'start': 0, 'length': 9, 'destination': 'ąę'}]
-        self.assertParsed(wikitext, ['ąężźćółąę something'], links)
+        tags = [{'type': 'link',
+                 'spans': [{'line': 0, 'start': 0, 'length': 9}],
+                 'attributes': {'destination': 'ąę'}}]
+        self.assertParsed(wikitext, ['ąężźćółąę something'], tags)
 
     def test_titled_link(self):
         wikitext = '[http://example.com I am a link].'
@@ -53,5 +63,7 @@ class WikilinkTestCase(ParserTestCase):
 
     def test_link_to_score(self):
         wikitext = r"""[[flute|<score vorbis="1"> \relative c''''  { \clef treble \time 4/4 \set Staff.midiInstrument = #"flute"  \tempo "Allegro" 4=176 \slashedGrace a8\mf( g8-.)[ e-.] \slashedGrace a( gis-.)[ gis-.] gis-.[ gis-.] \slashedGrace a( gis-.)[ e-.] | d16->( ees des c b8) \times 2/3 {a16( b a } g8->) g-. c-. e-. | \slashedGrace a8( g8-.)[ e-.] \slashedGrace a( gis-.)[ gis-.] gis-.[ gis-.] \slashedGrace a( gis-.)[ e-.] | d16->( ees des c g'!8-.) \slashedGrace b,( a-.) g2-> } </score>]]"""
-        links = [{'line': 0, 'start': 0, 'length': 5, 'destination': 'flute'}]
-        self.assertParsed(wikitext, ['flute'], links)
+        tags = [{'type': 'link',
+                 'spans': [{'line': 0, 'start': 0, 'length': 5}],
+                 'attributes': {'destination': 'flute'}}]
+        self.assertParsed(wikitext, ['flute'], tags)

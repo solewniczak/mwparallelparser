@@ -67,7 +67,7 @@ class Handler:
 
         lines = content.split('\n')
 
-        self._append_to_line(lines.pop(0)) # append to current line
+        self._append_to_line(lines.pop(0))  # append to current line
         for line in lines:
             self.lines[-1] = self.lines[-1]
             # create new paragraph if line is empty
@@ -85,7 +85,8 @@ class Handler:
             blend_match = re.match(r'[^\W0-9_]+', match)  # match only UNICODE alpha charters
             if blend_match:
                 blend = blend_match[0]
-                self.links[-1]['length'] += len(blend)
+                # links has only one span
+                self.links[-1]['spans'][0]['length'] += len(blend)
 
         self._append_content(match)
 
@@ -115,10 +116,15 @@ class Handler:
             return
 
         link = {
-            'line': len(self.lines) - 1,
-            'start': len(self.lines[-1]),
-            'length': len(text),
-            'destination': destination
+            'type': 'link',
+            'spans': [
+                {'line': len(self.lines) - 1,
+                 'start': len(self.lines[-1]),
+                 'length': len(text)}
+            ],
+            'attributes': {
+                'destination': destination
+            }
         }
 
         # add links only when we are in top content

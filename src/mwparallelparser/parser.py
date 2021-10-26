@@ -47,7 +47,8 @@ class Parser:
 
         # update link lines
         for link in links:
-            link['line'] -= start
+            for span in link['spans']:
+                span['line'] -= start
 
         return lines[start:end], links
 
@@ -56,8 +57,8 @@ class Parser:
         for label, match in self.rlexer.tokenize(wikitext):
             handler.call(label, match)
 
-        lines, links = handler.lines, handler.links
+        lines, tags = handler.lines, handler.links
         if trim:
-            lines, links = self.trim(lines, links)
+            lines, links = self.trim(lines, tags)
 
-        return {'lines': lines, 'links': links}
+        return {'lines': lines, 'tags': tags}
