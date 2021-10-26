@@ -1,6 +1,6 @@
 import unittest
 
-from mwparallelparser import Parser
+from src.mwparallelparser import Parser
 
 
 class ParserTestCase(unittest.TestCase):
