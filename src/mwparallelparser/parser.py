@@ -6,9 +6,6 @@ from .handler import Handler
 
 class Parser:
     def __init__(self):
-        self.name = 'MwParallelParser'
-        self.version = '1.0.0'
-
         self.rlexer = Rlexer()
 
         # load token patterns
