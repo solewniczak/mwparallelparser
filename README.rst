@@ -2,22 +2,24 @@ mwparallelparser
 ================
 
 **mwparallelparser** (the *MediaWiki Parallel Parser*) is a Python package
-that provides parallel parser for MediaWiki_ wikicode
+that provides a parallel parser for MediaWiki_ wikicode
 
-The name parallel parser refers to idea of `parallel markup`_ proposed
-by Ted Nelson. In the parallel markup approach the raw text data and the
+The name parallel parser refers to the idea of `parallel markup`_ proposed
+by Ted Nelson. In the parallel markup approach, the raw text data and the
 formatting information are kept separately. Each formatting tag contains
 information about its position in the document. This format has many
 advantages over traditional embedded markup.  Among others, it is much more
-nautral for many machine learning related topics.
+natural for many machine learning-related topics.
 
-There several key assumptions for the parser, that should be kept in mind:
-* The raw text data should be as clean as possible. Parser should remove
-any formatting syntax, even when corresponding parallel markup isn't produced.
+There are several key assumptions for the parser, that should be kept in mind:
+
+* The raw text data should be as clean as possible. The parser should remove
+  any formatting syntax, even when corresponding parallel markup isn't produced.
+
 * The white spaces should be removed if they don't provide any
-additional information. That means that several following spaces in the wikicode
-should be rendered as one space character if it is a part of a normal paragraph.
-Also the empty lines are removed.
+  additional information. That means that several following spaces in the wikicode
+  should be rendered as one space character if it is a part of a normal paragraph.
+  Also, the empty lines are removed.
 
 Usage
 -----
@@ -30,7 +32,7 @@ Normal usage is rather straightforward (where ``parallel_wikicode`` is the wikic
 >>> print(wikicode['tags'])
 
 The ``wikicode['lines']`` contains the raw text lines, generated from the given wikicode.
-The lines are kept in a List (without new line character at the end). Unless specified otherwise
+The lines are kept in a List (without a newline character at the end). Unless specified otherwise
 by some tag, each line represents a paragraph. Just like in the original MediaWiki parser,
 the paragraphs are `joined to a single output line`_ if they are separated only by one new line
 character in a source file.
@@ -52,10 +54,10 @@ a Dict with the following structure:
     }
 
 Each span must be a continuous fragment of the document, but no longer than one line of the output. If the
-tag is longer than one line, many spans are defined. There are two types of spans. The first are line spans,
-which selects the entire line: ``{'line': int}``. The second are inline spans, that selects only part of a line:
-``{'line': int, 'start': int, 'length': int}``. In the inline spans the ``'start'`` defines the index of a first
-character inside the span, the ``'length'`` defines number of characters that are included in the span.
+tag is longer than one line, many spans are defined. There are two types of spans. The first is line spans,
+which selects the entire line: ``{'line': int}``. The second is inline spans, which selects only part of a line:
+``{'line': int, 'start': int, 'length': int}``. In the inline spans, the ``'start'`` defines the index of a first
+character inside the span, the ``'length'`` defines a number of characters that are included in the span.
 
 wiki link
 ~~~~~~~~~
@@ -76,7 +78,7 @@ the **main namespace**. Each wiki link is defined by the tag with the following 
         }
     }
 
-Since links cannot exceeds paragraph boundaries, each wiki link has only one span. The ``'destination'``
+Since links cannot exceed paragraph boundaries, each wiki link has only one span. The ``'destination'``
 attribute defines the title of the destination page of a link.
 
 
