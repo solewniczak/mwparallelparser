@@ -11,7 +11,7 @@ class Handler:
         self._current_call = None
         self._preformatted_mode = False
 
-        self.links = []
+        self.parallel_tags = []
         self.lines = ['']  # start with first empty line
 
         self._titledlink_counter = 1
@@ -86,7 +86,7 @@ class Handler:
             if blend_match:
                 blend = blend_match[0]
                 # links has only one span
-                self.links[-1]['spans'][0]['length'] += len(blend)
+                self.parallel_tags[-1]['spans'][0]['length'] += len(blend)
 
         self._append_content(match)
 
@@ -129,7 +129,7 @@ class Handler:
 
         # add links only when we are in top content
         if len(self._tag_stack) == 0:
-            self.links.append(link)
+            self.parallel_tags.append(link)
             self._current_call = '_wikilink_blend'  # support blended links in top level
         self._append_content(text)
 
