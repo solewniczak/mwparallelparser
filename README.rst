@@ -25,7 +25,7 @@ Installation
 ------------
 
 The mwparallelparser is avaliable through `Python Package Index`_;
-you can install the latest release with ``pip install mwparserfromhell``
+you can install the latest release with ``pip install mwparallelparser``
 
 Usage
 -----
