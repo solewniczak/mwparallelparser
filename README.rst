@@ -21,13 +21,19 @@ There are several key assumptions for the parser, that should be kept in mind:
   should be rendered as one space character if it is a part of a normal paragraph.
   Also, the empty lines are removed.
 
+Installation
+------------
+
+The mwparallelparser is avaliable through `Python Package Index`_;
+you can install the latest release with ``pip install mwparserfromhell``
+
 Usage
 -----
-Normal usage is rather straightforward (where ``parallel_wikicode`` is the wikicode):
+Normal usage is rather straightforward (where ``wikicode`` is the syntax to parse):
 
 >>> from mwparallelparser import Parser
 >>> parser = Parser()
->>> parallel_wikicode = parser.parse(parallel_wikicode)
+>>> parallel_wikicode = parser.parse(wikicode)
 >>> print(wikicode['lines'])
 >>> print(wikicode['tags'])
 
@@ -59,6 +65,9 @@ which selects the entire line: ``{'line': int}``. The second is inline spans, wh
 ``{'line': int, 'start': int, 'length': int}``. In the inline spans, the ``'start'`` defines the index of a first
 character inside the span, the ``'length'`` defines a number of characters that are included in the span.
 
+Supported tags
+--------------
+
 wiki link
 ~~~~~~~~~
 The `wiki link`_ tag defines an internal MediaWiki hyperlink to another article in
@@ -81,8 +90,21 @@ the **main namespace**. Each wiki link is defined by the tag with the following 
 Since links cannot exceed paragraph boundaries, each wiki link has only one span. The ``'destination'``
 attribute defines the title of the destination page of a link.
 
+Development
+-----------
+
+The project contains unit tests that checks if the parser works as expected. To execute all the tests
+run the following command in the project root dictionary:
+
+``python -m unittest``
+
+To execute a specific test suite:
+
+``python -m unittest tests/test_wikilink.py``
+
 
 .. _MediaWiki:                        https://www.mediawiki.org
 .. _parallel markup:                  https://www.xml.com/pub/a/w3j/s3.nelson.html
+.. _Python Package Index:   https://pypi.org/
 .. _joined to a single output line:   https://www.mediawiki.org/wiki/Help:Formatting#Paragraphs
 .. _wiki link:                        https://www.mediawiki.org/wiki/Help:Links
