@@ -13,6 +13,7 @@ class Handler:
 
         self.parallel_tags = []
         self.lines = ['']  # start with first empty line
+        self.rows = 0
 
         self._titledlink_counter = 1
 
@@ -184,7 +185,53 @@ class Handler:
         self._tag_push('table', match)
 
     def _table_end(self, match):
-        self._tag_pop('table')
+        tag = self._tag_pop('table')
+        self._append_content(tag.content)
+        self.rows = 0
+
+    def _table_cell(self, match):
+        self._append_content("<cell>")
+
+    def _table_header_cell(self, match):
+        self._append_content("<cell>")
+
+    def _table_row(self, match):
+        self._tag_push('_table_row', match)
+
+    def _table_row_end(self, match):
+        tag = self._tag_pop('_table_row')
+        cells = tag.content.strip().split('<cell>')
+        cells.pop(0)
+
+        line = len(self.lines) - 1
+        start = len(self.lines[-1])
+        if start != 0:
+            start += 1  # space character
+
+        tags = []
+        for idx, cell in enumerate(cells):
+            cell_text = cell.strip()
+
+            tags.append({
+                'type': 'table_cell',
+                'spans': [
+                    {'line': line,
+                     'start': start,
+                     'length': len(cell_text)}
+                ],
+                'attributes': {
+                    'destination': cell_text,
+                    'row': self.rows,
+                    'column': idx
+                }
+            })
+
+            start += len(cell_text) + 1
+
+        text = "".join(cells)
+        self.parallel_tags.extend(tags)
+        self._append_to_line(text)
+        self.rows += 1
 
     def _comment(self, match):
         self._tag_push('comment', match)

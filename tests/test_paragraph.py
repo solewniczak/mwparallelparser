@@ -1,6 +1,6 @@
 import unittest
 
-from .conftest import ParserTestCase
+from tests.conftest import ParserTestCase
 
 
 class ParagraphTestCase(ParserTestCase):
