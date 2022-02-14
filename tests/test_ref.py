@@ -1,4 +1,4 @@
-from .conftest import ParserTestCase
+from tests.conftest import ParserTestCase
 
 
 class RefTestCase(ParserTestCase):
